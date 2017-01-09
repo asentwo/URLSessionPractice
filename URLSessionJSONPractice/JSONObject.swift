@@ -9,17 +9,20 @@
 import Foundation
 
 class JSONObject: CustomStringConvertible {
-    
+  
+  private let baseImageURL = "https://nomadlist.com"
+  
   var costDictionary: [String: Any]
   var airbnbDetails: [String: Any]
   var airbnbUS: Int
   var airbnbLocal: Int
   var mediaDictionary: [String: Any]
   var imageDictionary: [String: Any]
+  var imageString: String
   var image: URL
   
   
-  init(costDictionary: [String: Any], airbnbDetails: [String: Any], airbnbUS: Int, airbnbLocal: Int, mediaDictionary: [String: Any], imageDictionary: [String: Any], image: URL){
+  init(costDictionary: [String: Any], airbnbDetails: [String: Any], airbnbUS: Int, airbnbLocal: Int, mediaDictionary: [String: Any], imageDictionary: [String: Any], imageString: String, image: URL){
     
     self.costDictionary = costDictionary
     self.airbnbDetails = airbnbDetails
@@ -27,9 +30,8 @@ class JSONObject: CustomStringConvertible {
     self.airbnbLocal = airbnbLocal
     self.mediaDictionary = mediaDictionary
     self.imageDictionary = imageDictionary
+    self.imageString = imageString
     self.image = image
-    
-    
   }
   
   init(resultsDictionary:[String: Any]){
@@ -40,7 +42,8 @@ class JSONObject: CustomStringConvertible {
     airbnbLocal = (airbnbDetails["CHF"] as? Int)!
     mediaDictionary = (resultsDictionary["media"] as? [String: Any])!
     imageDictionary = (mediaDictionary["image"] as? [String: Any])!
-    image = URL(string: imageDictionary["1000"] as! String)!
+    imageString = (imageDictionary["1000"] as! String)
+    image = URL(string: "\(baseImageURL)\(imageString)")!
   }
   
   var description: String {
@@ -51,7 +54,6 @@ class JSONObject: CustomStringConvertible {
   static func updateResultsDictionary(urlExtension: String, completion:
     @escaping (JSONObject?) -> Void) {
    
-  //  var jsonDataArray = [JSONObject]()
     
     let nm = NetworkManager.sharedManager
     
@@ -71,10 +73,6 @@ class JSONObject: CustomStringConvertible {
       for resultsDictionary in resultDictionaries {// enumerate through dictionary
         let jsonInfo = JSONObject(resultsDictionary: resultsDictionary)
         
-       // jsonDataArray.append(jsonInfo)
-        
-       // completion(jsonDataArray)
-        
         print(jsonInfo.image)
         
         completion(jsonInfo)
@@ -83,31 +81,6 @@ class JSONObject: CustomStringConvertible {
     }
   }
   
-//  static func updateResultsDictionary(urlExtension: String, completion: @escaping ([JSONObject]) -> Void){
-//    
-//    var jsonDataArray = [JSONObject]()
-//    
-//    let nm = NetworkManager.sharedManager
-//    
-//    _ = nm.getJSONData(urlExtension: urlExtension, completion: {data in
-//      
-//      if let jsonDictionary = nm.parseJSONFromData(data) {
-//        
-//        let resultDictionaries = jsonDictionary["result"] as! [[String : Any]]
-//        for resultsDictionary in resultDictionaries {// enumerate through dictionary
-//          let jsonInfo = JSONObject(resultsDictionary: resultsDictionary)
-//          
-//          jsonDataArray.append(jsonInfo)
-//          
-//        }
-//        print(jsonDataArray.capacity)
-//        completion(jsonDataArray)
-//
-//      }
-//    })
-//    
-//  
-//    }
 }
 
 

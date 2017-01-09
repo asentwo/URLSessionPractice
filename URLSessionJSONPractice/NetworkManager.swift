@@ -13,8 +13,8 @@ class NetworkManager: NSObject {
   
   static let sharedManager = NetworkManager()
   
-  let baseURL = "https://nomadlist.com/api/v2/list"
-  let baseImageURL = "https://nomadlist.com"
+  private let baseURL = "https://nomadlist.com/api/v2/list"
+  
   
   lazy var configuration: URLSessionConfiguration = URLSessionConfiguration.default
   lazy var session: URLSession = URLSession(configuration: self.configuration)
