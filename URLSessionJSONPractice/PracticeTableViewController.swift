@@ -28,16 +28,11 @@ class PracticeTableViewController: UITableViewController {
         return
       }
       
-     // self.jsonObjectsArray = results
-      
       self.jsonObjectsArray.append(results)
       
       DispatchQueue.main.async {
-        
         self.practiceTableView.reloadData()
-
       }
-      
     })
     
   }
@@ -52,8 +47,6 @@ class PracticeTableViewController: UITableViewController {
     
     let jsonData = jsonObjectsArray[indexPath.row]
     
-    print(jsonData.airbnbDetails)
-    
     cell.jsonObject = jsonData
     
     return cell
@@ -67,6 +60,7 @@ class PracticeTableViewController: UITableViewController {
   
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
     performSegue(withIdentifier: "practiceTableToDetailSegue", sender: self)
   }
   
@@ -75,10 +69,13 @@ class PracticeTableViewController: UITableViewController {
   //MARK: Segue
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
     if segue.identifier == "practiceTableToDetailSegue" {
       
       if let detailVC = segue.destination as? PracticeDetailViewController {
-        self.jsonObjectsArray = detailVC.jsonObjectArray
+        
+         detailVC.jsonObjectArray = self.jsonObjectsArray
+        
       }
     }
   }

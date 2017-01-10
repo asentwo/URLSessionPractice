@@ -34,19 +34,12 @@ class PracticeTableViewCell: UITableViewCell {
     
     do {
       
-      print(jsonObject.image)
-      
       let data = try Data(contentsOf: jsonObject.image)
       
       DispatchQueue.main.async(execute: { //Update image on main queue
-        
         self.cellImage.image = UIImage(data: data)
       })
       
     } catch {}
-  
   }
-  
-  
-  
 }

@@ -27,8 +27,6 @@ class NetworkManager: NSObject {
     let request = URLRequest(url: URL(string:"\(baseURL)\(urlExtension)")! )
     let dataTask = session.dataTask(with: request, completionHandler: { (data, response, error) in
       
-      print(request)
-      
       if error == nil {
         if let httpResponse = response as? HTTPURLResponse {
           switch (httpResponse.statusCode) {

@@ -32,7 +32,6 @@ class PracticeDetailViewController: UIViewController {
       let data = try Data(contentsOf: jsonObjectArray[0].image)
       
          DispatchQueue.main.async(execute: { //Update image on main queue
-     
           self.image.image = UIImage(data: data)
       })
       

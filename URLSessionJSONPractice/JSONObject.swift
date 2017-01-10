@@ -51,10 +51,10 @@ class JSONObject: CustomStringConvertible {
   }
   
   
+  
   static func updateResultsDictionary(urlExtension: String, completion:
     @escaping (JSONObject?) -> Void) {
    
-    
     let nm = NetworkManager.sharedManager
     
     _ = nm.getJSONData(urlExtension: urlExtension) {data in
@@ -73,14 +73,11 @@ class JSONObject: CustomStringConvertible {
       for resultsDictionary in resultDictionaries {// enumerate through dictionary
         let jsonInfo = JSONObject(resultsDictionary: resultsDictionary)
         
-        print(jsonInfo.image)
-        
         completion(jsonInfo)
      
       }
     }
   }
-  
 }
 
 
