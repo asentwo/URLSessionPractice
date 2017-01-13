@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class JSONObject: CustomStringConvertible {
   
   private let baseImageURL = "https://nomadlist.com"
