@@ -9,7 +9,7 @@
 import Foundation
 
 
-class JSONObject: CustomStringConvertible {
+class JSONObject: CustomStringConvertible, DictionaryUpdater {
   
   private let baseImageURL = "https://nomadlist.com"
   
@@ -53,36 +53,107 @@ class JSONObject: CustomStringConvertible {
   
   
   
-  static func updateResultsDictionary(urlExtension: String, completion:
-    @escaping (JSONObject?) -> Void) {
-   
-    let nm = NetworkManager.sharedManager
+  
+
+}
+
+class AirBnBObject {
+  
+  var airbnbUS: Int
+  var airbnbLocal: Int
+
+  
+  init(airbnbUS: Int, airbnbLocal: Int){
+
     
-    _ = nm.getJSONData(urlExtension: urlExtension) {data in
-   
-      guard let jsonDictionary = nm.parseJSONFromData(data), let
-        
-        resultDictionaries = jsonDictionary["result"] as?
-       
-        [[String : Any]] else {
-      
-          completion(nil)
-      
-          return
-      }
-      
-      for resultsDictionary in resultDictionaries {// enumerate through dictionary
-        let jsonInfo = JSONObject(resultsDictionary: resultsDictionary)
-        
-        completion(jsonInfo)
-     
-      }
+    self.airbnbUS = airbnbUS
+    self.airbnbLocal = airbnbLocal
+  }
+  
+init(resultsDictionary:[String: Any]){
+    guard let cost = resultsDictionary["cost"] as? [String: Any],
+      let airbnb = cost["airbnb_median"] as? [String : Any],
+      let usd = airbnb["USD"] as? Int,
+      let chf = airbnb["CHF"] as? Int
+      else {
+        airbnbUS = 0
+        airbnbLocal = 0
+       return
     }
+    
+    airbnbUS = usd
+    airbnbLocal = chf
   }
 }
 
 
 
 
+  class mediaObject {
+    
+    private let baseImageURL = "https://nomadlist.com"
+  
+    var imageString: String
+    var image: URL
+    
+    
+    init(imageString: String, image: URL ){
+      self.imageString = imageString
+      self.image = image
+    }
+    
+  
+init(resultsDictionary:[String: Any]){
+    guard let media = (resultsDictionary["media"] as? [String: Any]),
+     let imageDictionary = media["image"] as? [String: Any],
+     let image1000 = imageDictionary["1000"] as? String
+      else {
+        imageString = ""
+        image = URL(string: "\(baseImageURL)")!
+        return
+    }
+    imageString = image1000
+    image = URL(string: "\(baseImageURL)\(imageString)")!
+    
+    return
+  }
+}
+
+
+
+
+protocol DictionaryUpdater {}
+
+
+
+extension DictionaryUpdater {
+  //Function used for all child classes to update object values
+  static func updateResultsDictionary(urlExtension: String, completion:
+    @escaping (JSONObject?) -> Void) {
+    
+    let nm = NetworkManager.sharedManager
+    
+    _ = nm.getJSONData(urlExtension: urlExtension) {data in
+      
+      guard let jsonDictionary = nm.parseJSONFromData(data), let
+        
+        resultDictionaries = jsonDictionary["result"] as?
+          
+          [[String : Any]] else {
+            
+            completion(nil)
+            
+            return
+      }
+      
+      for resultsDictionary in resultDictionaries {// enumerate through dictionary
+        let jsonInfo = JSONObject(resultsDictionary: resultsDictionary)
+        
+        completion(jsonInfo)
+        
+      }
+    }
+  }
+}
 
 

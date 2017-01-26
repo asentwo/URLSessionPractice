@@ -24,16 +24,16 @@ class PracticeDetailViewController: UIViewController {
     
     DispatchQueue.main.async {
       self.topLabel.text = String(self.jsonObjectArray[0].airbnbUS)
-      self.bottomLabel.text = String(self.jsonObjectArray[0].airbnbLocal)
+     self.bottomLabel.text = String(self.jsonObjectArray[0].airbnbLocal)
     }
 
     
     do {
-      let data = try Data(contentsOf: jsonObjectArray[0].image)
-      
+     let data = try Data(contentsOf: jsonObjectArray[0].image)
+     
          DispatchQueue.main.async(execute: { //Update image on main queue
           self.image.image = UIImage(data: data)
-      })
+     })
       
     } catch {}
   

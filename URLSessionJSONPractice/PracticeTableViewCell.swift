@@ -29,17 +29,17 @@ class PracticeTableViewCell: UITableViewCell {
   
   func updateUI () {
     
-    self.leftLabel.text = String(jsonObject.airbnbUS)
-    self.rightLabel.text = String(jsonObject.airbnbLocal)
+  self.leftLabel.text = String(jsonObject.airbnbUS)
+   self.rightLabel.text = String(jsonObject.airbnbLocal)
+   
+   do {
     
-    do {
-      
-      let data = try Data(contentsOf: jsonObject.image)
-      
-      DispatchQueue.main.async(execute: { //Update image on main queue
-        self.cellImage.image = UIImage(data: data)
-      })
-      
-    } catch {}
+     let data = try Data(contentsOf: jsonObject.image)
+    
+     DispatchQueue.main.async(execute: { //Update image on main queue
+       self.cellImage.image = UIImage(data: data)
+     })
+    
+   } catch {}
   }
 }
